@@ -7,6 +7,7 @@ const titulo = document.querySelector('.app__title');
 const botoes = document.querySelectorAll ('.app__card-button');
 const startPauseBt = document.querySelector('#start-pause');
 const musicaFocoInput = document.querySelector('#alternar-musica');
+const iniciarOuPausarBt = document.querySelector('#start-pause span');
 const musica = new Audio('/sons/luna-rise-part-one.mp3');
 const audioPlay = new Audio ('/sons/play.wav');
 const audioPause = new Audio ('/sons/pause.mp3');
@@ -46,7 +47,7 @@ function alterarContexto (contexto) {
         contexto.classList.remove('active');
     })
     html.setAttribute('data-contexto', contexto);
-    banner.setAttribute('src', `/imagens/${contexto}.png`)
+    banner.setAttribute('src', `/imagens/${contexto}.png`);
     switch (contexto) {
         case "foco":
             titulo.innerHTML = `
@@ -62,8 +63,7 @@ function alterarContexto (contexto) {
         case "descanso-longo":
             titulo.innerHTML = `
             Hora de voltar à superfície.<strong class="app__title-strong"> Faça um pausa longa! 
-            `
-         
+            `   
         default:
             break;
     }
@@ -72,8 +72,8 @@ function alterarContexto (contexto) {
 const contagemRegressiva = () => {
     if (tempoDecorridosEmSegundos <= 0) {
         audioBeep.play();
-        zerar();
         alert('Tempo finalizado!');
+        zerar();
         return;
     }
     tempoDecorridosEmSegundos -= 1;
@@ -90,10 +90,12 @@ function iniciarOuPausar () {
     }
     audioPlay.play();
     intervaloId = setInterval(contagemRegressiva, 1000);
+    iniciarOuPausarBt.textContent = "Pausar";
 }
 
 function zerar() {
     clearInterval(intervaloId);
+    iniciarOuPausarBt.textContent = "Começar";
     intervaloId = null;
 }
 
